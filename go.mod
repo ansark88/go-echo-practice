@@ -13,15 +13,9 @@ require (
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/pelletier/go-toml v1.8.1 // indirect
-	go-echo-pracetice/fizzbuzz v0.0.0-00010101000000-000000000000 // indirect
-	go-echo-pracetice/profile v0.0.0-00010101000000-000000000000 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/net v0.0.0-20210331212208-0fccb6fa2b5c // indirect
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57 // indirect
 	golang.org/x/text v0.3.6 // indirect
 	golang.org/x/time v0.0.0-20210220033141-f8bda1e9f3ba // indirect
 )
-
-replace go-echo-pracetice/fizzbuzz => ./fizzbuzz
-
-replace go-echo-pracetice/profile => ./profile

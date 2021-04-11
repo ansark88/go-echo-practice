@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"go-echo-pracetice/fizzbuzz"
-	"go-echo-pracetice/profile"
+	"go-echo-practice/fizzbuzz"
+	"go-echo-practice/profile"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
