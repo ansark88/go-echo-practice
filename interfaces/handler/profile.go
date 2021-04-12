@@ -1,4 +1,4 @@
-package interfaces
+package handler
 
 import (
 	"go-echo-practice/domain/model"
@@ -10,8 +10,8 @@ import (
 
 // ProfileHandler :ProfileのHandlerのインターフェイス
 type ProfileHandler interface {
-	HandleGetProfile(ctx echo.Context)
-	HandleAddProfile(ctx echo.Context)
+	HandleGetProfile(ctx echo.Context) (err error)
+	HandleAddProfile(ctx echo.Context) (err error)
 }
 
 type profileHandler struct {
@@ -25,35 +25,34 @@ func NewProfileHandler(pu usecase.ProfileUseCase) ProfileHandler {
 	}
 }
 
-func (ph profileHandler) HandleGetProfile(ctx echo.Context) {
+func (ph profileHandler) HandleGetProfile(ctx echo.Context) (err error) {
 	// Todo: ユーザー情報はDBに永続化すること
 	name := ctx.Param("name")
 
-	profile, err := usecase.ProfileUseCase.GetProfile(name)
+	profile, err := ph.profileUseCase.GetProfile(name)
 
+	// 取り敢えず400を返すが、エラーメッセージを見てDBエラーなどの時は500を返すほうが望ましい
 	if err != nil {
-		response.HTTPError("http.StatusBadRequest, err.Error()")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	// if profile, ok := Profiles[name]; ok {
-	// 	return ctx.JSON(http.StatusOK, profile)
-	// }
-
-	return response.JSON(http.StatusBadRequest, "存在しないユーザーです")
+	return ctx.JSON(http.StatusOK, profile)
 }
 
-func (ph profileHandler) HandleAddProfile(ctx echo.Context) {
+func (ph profileHandler) HandleAddProfile(ctx echo.Context) (err error) {
 	p := new(model.Profile)
 	if err := ctx.Bind(p); err != nil {
-		response.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	if err := ctx.Validate(p); err != nil {
-		response.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	err := usecase.ProfileUseCase.AddProfile(p)
+	err = ph.profileUseCase.AddProfile(p)
 
 	if err != nil {
-		response.NewHTTPError(http.StatusBadRequest, err.Error())
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+
+	return ctx.NoContent(http.StatusCreated)
 }

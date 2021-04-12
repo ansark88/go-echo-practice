@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"errors"
 	"go-echo-practice/domain/model"
 	"go-echo-practice/domain/repository"
 )
@@ -31,11 +32,26 @@ func (pu profileUseCase) GetProfile(name string) (profile *model.Profile, err er
 		return nil, err
 	}
 
+	// 該当ユーザーない時はRepositoryはエラー扱いにせずnilを返す。エラー扱いにするのはUseCase(ユースケース都合でエラーにしてるから)
+	if profile == nil {
+		return nil, errors.New("該当するユーザーがいません")
+	}
+
 	return profile, nil
 }
 
 func (pu profileUseCase) AddProfile(p *model.Profile) (err error) {
 	// 必要に応じてここでバリデーション
+	// 重複しないかチェック
+	name := p.Name
+	profile, err := pu.profileRepository.GetProfile(name)
+	if err != nil {
+		return err
+	}
+
+	if profile != nil {
+		return errors.New("既に存在する名前です")
+	}
 
 	err = pu.profileRepository.AddProfile(p)
 	return err

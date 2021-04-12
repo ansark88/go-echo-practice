@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"go-echo-practice/fizzbuzz"
-	"go-echo-practice/profile"
+	"go-echo-practice/infra/persistence"
+	"go-echo-practice/interfaces/handler"
+	"go-echo-practice/usecase"
 
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
@@ -29,6 +31,11 @@ func main() {
 	api.Use(middleware.Logger())
 	api.Use(middleware.Recover())
 
+	// 初期設定
+	profilePersistence := persistence.NewProfilePersistence()
+	profileUseCase := usecase.NewProfileUseCase(profilePersistence)
+	profileHandler := handler.NewProfileHandler(profileUseCase)
+
 	api.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
@@ -37,10 +44,8 @@ func main() {
 	fc := fizzbuzz.FizzBuzzController{}
 	api.GET("FizzBuzz/:num", fc.FizzBuzz)
 
-	pc := profile.ProfilesController{}
-	pc.InitProfile()
-	api.GET("Profile/:name", pc.GetProfile)
-	api.POST("Profile", pc.AddProfile)
+	api.GET("Profile/:name", profileHandler.HandleGetProfile)
+	api.POST("Profile", profileHandler.HandleAddProfile)
 
 	api.Logger.Fatal(api.Start(":8080"))
 }

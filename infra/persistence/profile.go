@@ -9,8 +9,9 @@ var profiles map[string]*model.Profile
 
 type profilePersistence struct{} //何も持たない
 
-// NewUserPersistence は ProfileRepositoryインターフェイスを実装している
-func NewUserPersistence() repository.ProfileRepository {
+// NewProfilePersistence は ProfileRepositoryインターフェイスを実装している
+func NewProfilePersistence() repository.ProfileRepository {
+	profiles = make(map[string]*model.Profile)
 	return &profilePersistence{}
 }
 
@@ -31,10 +32,11 @@ func (pp profilePersistence) GetProfile(name string) (profile *model.Profile, er
 	}
 
 	var ok bool
-	if profile, ok = profiles[name]; ok {
-		return profile, nil
+	if profile, ok = profiles[name]; !ok {
+		return nil, nil // 該当なし
 	}
-	return nil, err
+
+	return profile, nil
 }
 
 func (pp profilePersistence) AddProfile(p *model.Profile) error {
