@@ -18,13 +18,13 @@ func NewProfilePersistence() repository.ProfileRepository {
 // リポジトリの実装
 func (pp profilePersistence) GetProfile(name string) (profile *model.Profile, err error) {
 	// Todo:DB実装は後にしてモックを返す
-	profiles["Alice"] = &model.Profile{
+	profiles["Bob"] = &model.Profile{
 		Name:          "Bob",
 		Age:           25,
 		Gender:        "Man",
 		FavoriteFoods: []model.FavoriteFood{{Food: "Hamburger"}, {Food: "Cookie"}, {Food: "Chocolate"}},
 	}
-	profiles["Bob"] = &model.Profile{
+	profiles["Alice"] = &model.Profile{
 		Name:          "Alice",
 		Age:           24,
 		Gender:        "Woman",
