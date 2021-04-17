@@ -22,13 +22,13 @@ func (pp profilePersistence) GetProfile(name string) (profile *model.Profile, er
 		Name:          "Bob",
 		Age:           25,
 		Gender:        "Man",
-		FavoriteFoods: []string{"Hamburger", "Cookie", "Chocolate"},
+		FavoriteFoods: []model.FavoriteFood{{Food: "Hamburger"}, {Food: "Cookie"}, {Food: "Chocolate"}},
 	}
 	profiles["Bob"] = &model.Profile{
 		Name:          "Alice",
 		Age:           24,
 		Gender:        "Woman",
-		FavoriteFoods: []string{"Apple", "Orange", "Melon"},
+		FavoriteFoods: []model.FavoriteFood{{Food: "Apple"}, {Food: "Orange"}, {Food: "Melon"}},
 	}
 
 	var ok bool

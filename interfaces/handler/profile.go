@@ -26,7 +26,6 @@ func NewProfileHandler(pu usecase.ProfileUseCase) ProfileHandler {
 }
 
 func (ph profileHandler) HandleGetProfile(ctx echo.Context) (err error) {
-	// Todo: ユーザー情報はDBに永続化すること
 	name := ctx.Param("name")
 
 	profile, err := ph.profileUseCase.GetProfile(name)

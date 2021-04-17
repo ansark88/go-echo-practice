@@ -17,3 +17,4 @@ GoのWebAPIの練習。Echoを使用。
 
 - [今すぐ「レイヤードアーキテクチャ+DDD」を理解しよう。（golang）](https://qiita.com/tono-maron/items/345c433b86f74d314c8d)
 - [【Go + レイヤードアーキテクチャー】DDDを意識してWeb APIを実装してみる](https://yyh-gl.github.io/tech-blog/blog/go_web_api/)
+- [HON9LIN/go-echo-boilerplate](https://github.com/HON9LIN/go-echo-boilerplate)
