@@ -44,6 +44,7 @@ func main() {
 	// DB設定
 	db := database.GetInstance()
 	err = database.Migrate(db)
+	database.SetInitData(db)
 
 	if err != nil {
 		log.Fatal("DB起動エラー")

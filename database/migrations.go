@@ -8,5 +8,5 @@ import (
 
 // Migrate はGormのマイグレーションを行う
 func Migrate(db *gorm.DB) error {
-	return db.AutoMigrate(&model.Profile{})
+	return db.AutoMigrate(&model.Profile{}, &model.FavoriteFood{})
 }
