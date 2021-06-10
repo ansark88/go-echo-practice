@@ -9,6 +9,7 @@ import (
 	"go-echo-practice/fizzbuzz"
 	"go-echo-practice/infra/persistence"
 	"go-echo-practice/interfaces/handler"
+	"go-echo-practice/template"
 	"go-echo-practice/usecase"
 
 	"github.com/go-playground/validator"
@@ -38,6 +39,7 @@ func main() {
 
 	api := echo.New()
 	api.Validator = &CustomValidator{validator: validator.New()}
+	api.Renderer = template.NewTemplate()
 	api.Use(middleware.Logger())
 	api.Use(middleware.Recover())
 
@@ -56,14 +58,15 @@ func main() {
 	profileUseCase := usecase.NewProfileUseCase(profilePersistence)
 	profileHandler := handler.NewProfileHandler(profileUseCase)
 
-	api.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	// 練習問題6
+	renderingHandler := handler.NewRenderingHandler()
+	api.GET("/", renderingHandler.HandleMainRendering)
 
 	// 練習問題1
 	fc := fizzbuzz.FizzBuzzController{}
 	api.GET("FizzBuzz/:num", fc.FizzBuzz)
 
+	// 練習問題2,3,4
 	api.GET("Profile/:name", profileHandler.HandleGetProfile)
 	api.POST("Profile", profileHandler.HandleAddProfile)
 
