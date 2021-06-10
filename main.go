@@ -40,6 +40,7 @@ func main() {
 	api := echo.New()
 	api.Validator = &CustomValidator{validator: validator.New()}
 	api.Renderer = template.NewTemplate()
+	api.Static("/static", "assets")
 	api.Use(middleware.Logger())
 	api.Use(middleware.Recover())
 
