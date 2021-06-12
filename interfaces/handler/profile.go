@@ -10,6 +10,7 @@ import (
 
 // ProfileHandler :ProfileのHandlerのインターフェイス
 type ProfileHandler interface {
+	HandleListProfile(ctx echo.Context) (err error)
 	HandleGetProfile(ctx echo.Context) (err error)
 	HandleAddProfile(ctx echo.Context) (err error)
 }
@@ -23,6 +24,19 @@ func NewProfileHandler(pu usecase.ProfileUseCase) ProfileHandler {
 	return &profileHandler{
 		profileUseCase: pu,
 	}
+}
+
+func (ph profileHandler) HandleListProfile(ctx echo.Context) (err error) {
+	// Todo 今は絞り込みがないので空
+	query := ""
+
+	profileList, err := ph.profileUseCase.ListProfile(query)
+
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	return ctx.JSON(http.StatusOK, profileList)
 }
 
 func (ph profileHandler) HandleGetProfile(ctx echo.Context) (err error) {

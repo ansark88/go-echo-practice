@@ -17,7 +17,7 @@ class ProfileList extends React.Component {
 
     componentDidMount() {
         axios
-            .get('./Profile/Alice')
+            .get('./Profile')
             .then(res => {
                 console.log(res.data);
                 this.setState({ profiles: this.state.profiles.concat(res.data) });

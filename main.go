@@ -68,6 +68,7 @@ func main() {
 	api.GET("FizzBuzz/:num", fc.FizzBuzz)
 
 	// 練習問題2,3,4
+	api.GET("Profile", profileHandler.HandleListProfile)
 	api.GET("Profile/:name", profileHandler.HandleGetProfile)
 	api.POST("Profile", profileHandler.HandleAddProfile)
 

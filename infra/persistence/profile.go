@@ -4,19 +4,34 @@ import (
 	"go-echo-practice/database"
 	"go-echo-practice/domain/model"
 	"go-echo-practice/domain/repository"
+	"log"
 )
 
-var profiles map[string]*model.Profile
+//var profiles map[string]*model.Profile
 
 type profilePersistence struct{} //何も持たない
 
 // NewProfilePersistence は ProfileRepositoryインターフェイスを実装している
 func NewProfilePersistence() repository.ProfileRepository {
-	profiles = make(map[string]*model.Profile)
+	//profiles = make(map[string]*model.Profile)
 	return &profilePersistence{}
 }
 
 // リポジトリの実装
+func (pp profilePersistence) ListProfile(query string) (profiles *[]model.Profile, err error) {
+	db := database.GetInstance()
+	err = db.Find(&profiles).Error
+
+	err = nil
+	if err != nil {
+		return nil, nil // 該当なし
+	}
+
+	log.Println(profiles)
+
+	return profiles, nil
+}
+
 func (pp profilePersistence) GetProfile(name string) (profile *model.Profile, err error) {
 	db := database.GetInstance()
 	err = db.First(&profile, "Name = ?", name).Error
