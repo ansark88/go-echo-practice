@@ -7,10 +7,8 @@ import (
 
 	"go-echo-practice/database"
 	"go-echo-practice/fizzbuzz"
-	"go-echo-practice/infra/persistence"
 	"go-echo-practice/interfaces/handler"
 	"go-echo-practice/template"
-	"go-echo-practice/usecase"
 
 	"github.com/go-playground/validator"
 	"github.com/joho/godotenv"
@@ -54,10 +52,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	// 初期設定
-	profilePersistence := persistence.NewProfilePersistence()
-	profileUseCase := usecase.NewProfileUseCase(profilePersistence)
-	profileHandler := handler.NewProfileHandler(profileUseCase)
+	// DIによる初期設定
+	profileHandler := profileInitialize()
 
 	// 練習問題6
 	renderingHandler := handler.NewRenderingHandler()
